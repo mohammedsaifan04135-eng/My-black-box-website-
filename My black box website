@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>एनिमे वर्ल्ड - Anime World</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .header h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 10px #fff; }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px #fff, 0 0 30px #667eea; }
+        }
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .anime-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .anime-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .anime-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+        .anime-card:hover::before {
+            opacity: 1;
+            animation: shine 0.5s ease-in-out;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .anime-title {
+            font-size: 1.8em;
+            margin: 15px 0;
+            color: #ffd700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+        .anime-desc {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .watch-btn {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .watch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0,0,0,0.5);
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    
+    <div class="header">
+        <h1>🌟 एनिमे वर्ल्ड 🌟</h1>
+        <p>सभी लोकप्रिय एनिमे हिंदी डब में! जापानी एनिमेशन का हिंदी जादू!</p>
+    </div>
+
+    <div class="anime-grid">
+        <div class="anime-card">
+            <div class="anime-title">👹 डेमन स्लेयर (Demon Slayer)</div>
+            <div class="anime-desc">तनजीरो कामाडो की बहन नेज़ुको डेमन बन जाती है। क्या तनजीरो उसे बचा पाएगा?</div>
+            <button class="watch-btn" onclick="watchAnime('demon-slayer')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">⚔️ अटैक ऑन टाइटन (Attack on Titan)</div>
+            <div class="anime-desc">टाइटन्स के हमलों से मानवता का अंतिम गढ़। एरन की बदला लेने की कहानी!</div>
+            <button class="watch-btn" onclick="watchAnime('attack-on-titan')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">🔴 वन पीस (One Piece)</div>
+            <div class="anime-desc">लूफ़ी और उसके दोस्तों का पाइरेट किंग बनने का महासागरीय सफर!</div>
+            <button class="watch-btn" onclick="watchAnime('one-piece')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">👦 नारुतो (Naruto)</div>
+            <div class="anime-desc">नारुतो उज़ुमाकी का हokage बनने का सपना और निन्जा दुनिया!</div>
+            <button class="watch-btn" onclick="watchAnime('naruto')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">🐉 ड्रैगन बॉल (Dragon Ball)</div>
+            <div class="anime-desc">गोकु की सुपर सायन बनने की अद्भुत यात्रा!</div>
+            <button class="watch-btn" onclick="watchAnime('dragon-ball')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">💗 डेथ नोट (Death Note)</div>
+            <div class="anime-desc">लाइट यागामी को मिला डेथ नोट। क्या वो दुनिया को बदल पाएगा?</div>
+            <button class="watch-btn" onclick="watchAnime('death-note')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">🕵️‍♂️ डिटेक्टिव कोनान (Detective Conan)</div>
+            <div class="anime-desc">कुडो शिनिची छोटा हो गया! रहस्यमयी अपराधों का पीछा!</div>
+            <button class="watch-btn" onclick="watchAnime('detective-conan')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">🌸 फुलमेटल अल्केमिस्ट (Fullmetal Alchemist)</div>
+            <div class="anime-desc">एडवर्ड और अल्फोंस एल्रिक भाइयों की अल्केमी की खोज!</div>
+            <button class="watch-btn" onclick="watchAnime('fullmetal-alchemist')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">⚡ जूजुत्सु काइसेन (Jujutsu Kaisen)</div>
+            <div class="anime-desc">इटादोरी युजी और कर्स्ड स्पिरिट्स के खिलाफ जंग!</div>
+            <button class="watch-btn" onclick="watchAnime('jujutsu-kaisen')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">👻 हेल्सिंग (Hellsing)</div>
+            <div class="anime-desc">वैम्पायर हंटर आलुकार्ड की खूनी लड़ाई!</div>
+            <button class="watch-btn" onclick="watchAnime('hellsing')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">🌊 ब्लू लॉक (Blue Lock)</div>
+            <div class="anime-desc">जापान का सबसे अच्छा स्ट्राइकर बनने की फुटबॉल जंग!</div>
+            <button class="watch-btn" onclick="watchAnime('blue-lock')">अभी देखें</button>
+        </div>
+
+        <div class="anime-card">
+            <div class="anime-title">🔮 स्टीनिंग (Steins;Gate)</div>
+            <div class="anime-desc">टाइम ट्रैवल और साइंस का रोमांचक मिश्रण!</div>
+            <button class="watch-btn" onclick="watchAnime('steins-gate')">अभी देखें</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024 एनिमे वर्ल्ड | सभी एनिमे हिंदी डब में उपलब्ध | अधिक एनिमे जल्द आ रहे हैं!</p>
+    </div>
+
+    <script>
+        // Floating particles effect
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Watch anime function (demo)
+        function watchAnime(anime) {
+            alert(`🎬 "${anime.toUpperCase()}" हिंदी डब लोड हो रहा है...\n\nअभी प्लेटफॉर्म पर उपलब्ध नहीं, लेकिन जल्द आ रहा है! 🚀`);
+        }
+
+        // Smooth scroll and animations
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.anime-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const cardVisible = 150;
+                if (cardTop < window.innerHeight - cardVisible) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initial animation
+        document.querySelectorAll('.anime-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'all 0.6s ease ' + (index * 0.1) + 's';
+        });
+    </script>
+</body>
+</html>
